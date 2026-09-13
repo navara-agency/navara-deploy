@@ -1,0 +1,1 @@
+import{l as e,s as t}from"./vendor-motion-BY09EkoP.js";import{t as n}from"./useLiteMotion-1zsTSQCU.js";var r=e();function i({children:e}){let i=n();return(0,r.jsx)(t.div,{initial:{opacity:0,y:i?0:20},animate:{opacity:1,y:0},exit:{opacity:0,y:i?0:-10},transition:{duration:i?.18:.4},children:e})}export{i as t};

@@ -1,0 +1,11 @@
+# https://navaraagency.com
+
+User-agent: *
+Allow: /
+
+# Internal, auth-gated admin surface. Nothing here should ever be indexed, and
+# crawling it wastes budget better spent on the /ar pages.
+Disallow: /dashboard
+Disallow: /dashboard/
+
+Sitemap: https://navaraagency.com/sitemap.xml

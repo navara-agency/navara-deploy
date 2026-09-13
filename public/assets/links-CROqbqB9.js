@@ -1,0 +1,1 @@
+var e=`omarelsady/discovery-call`,t=`https://wa.me/`,n=`Hello!%20I'd%20like%20to%20learn%20more%20about%20Navara's%20services.`,r=`${t}?text=${n}`,i=`+201001234567`,a=`+20 100 123 4567`,o=`https://www.linkedin.com/company/navara-agency`,s=`https://www.instagram.com/navara_agency`;export{i as a,a as i,s as n,r as o,o as r,n as s,e as t};

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preconnect to third-party origins used at page load -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KVMRKK4B');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Favicons — PNGs only. The .ico path was dropped because to-ico produced
+         a corrupted multi-size ICO. Modern browsers use the PNG sizes natively. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/nv-icon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/nv-icon-16.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/nv-icon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/nv-icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/nv-icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/nv-apple-touch.png" />
+    <meta name="theme-color" content="#001192" />
+
+    <!-- Baseline meta description. React Helmet overrides this per route once
+         the app hydrates; this value is what non-rendering crawlers and social
+         scrapers see. Previously absent entirely. -->
+    <meta
+      name="description"
+      content="Navara is Egypt and Saudi Arabia's integrated growth marketing agency — strategy, creative, media buying, and analytics under one roof."
+    />
+
+    <!-- Open Graph (social link previews) -->
+    <meta property="og:title" content="Navara | Integrated Growth Marketing" />
+    <meta property="og:description" content="Navara is Egypt and Saudi Arabia's integrated growth marketing agency — strategy, creative, media buying, and analytics under one roof." />
+    <meta property="og:image" content="https://navaraagency.com/og-image.png" />
+    <meta property="og:url" content="https://navaraagency.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Navara" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_SA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Navara_Agency" />
+
+    <title>Navara | Integrated Growth Marketing</title>
+
+    <!-- Schema.org organisation.
+         Two jobs here:
+           1. Get the logo into search results / knowledge panels.
+           2. Teach Google that the Arabic string "نافارا للتسويق الإلكتروني"
+              refers to THIS domain. Right now Google resolves "نافارا" to the
+              Nissan Navara pickup truck, because no page anywhere connects the
+              Arabic name to navaraagency.com.
+
+         Note the bare "نافارا" is intentionally absent from alternateName.
+         Nissan + Arabic Wikipedia own that entity and it is not winnable; the
+         compound brand names below are.
+
+         sameAs values verified with Omar on 2026-07-28. Keep in sync with
+         src/config/links.js — a mismatch between the two weakens the signal. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://navaraagency.com/#organization",
+      "name": "Navara",
+      "alternateName": [
+        "Navara Agency",
+        "نافارا ايجنسي",
+        "نافارا للتسويق الإلكتروني",
+        "شركة نافارا للتسويق الإلكتروني",
+        "نافارا للتسويق الرقمي"
+      ],
+      "url": "https://navaraagency.com",
+      "logo": "https://navaraagency.com/nv-icon-512.png",
+      "image": "https://navaraagency.com/og-image.png",
+      "description": "Egypt and Saudi Arabia's integrated growth marketing agency — strategy, creative, media buying, and analytics under one roof.",
+      "knowsLanguage": ["ar", "en"],
+      "areaServed": [
+        { "@type": "Country", "name": "SA" },
+        { "@type": "Country", "name": "EG" }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/company/navara-agency",
+        "https://www.instagram.com/navara_agency",
+        "https://www.facebook.com/navara.agency",
+        "https://www.tiktok.com/@navara_agency",
+        "https://x.com/Navara_Agency"
+      ]
+    }
+    </script>
+
+    <!-- Arabic-language description of the same entity. Shares the same @id as
+         the node above so parsers treat them as one organisation rather than
+         two, while keeping the Arabic strings unambiguous. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://navaraagency.com/#organization",
+      "name": "نافارا للتسويق الإلكتروني",
+      "alternateName": "Navara Agency",
+      "url": "https://navaraagency.com",
+      "logo": "https://navaraagency.com/nv-icon-512.png",
+      "description": "نافارا للتسويق الإلكتروني — وكالة تسويق رقمي متكاملة في السعودية ومصر. استراتيجية، تصميم وبرمجة المواقع والمتاجر الإلكترونية، إدارة الحملات الإعلانية، والتحليلات تحت سقف واحد.",
+      "inLanguage": "ar",
+      "areaServed": [
+        { "@type": "Country", "name": "SA" },
+        { "@type": "Country", "name": "EG" }
+      ]
+    }
+    </script>
+    <script type="module" crossorigin src="/assets/index-CWCsAttu.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-COnpUsM8.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-i18n-u2RMVvE3.js">
+    <link rel="modulepreload" crossorigin href="/assets/chunk-QFMPRPBF-I_h0SVGa.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-motion-BY09EkoP.js">
+    <link rel="modulepreload" crossorigin href="/assets/useLiteMotion-1zsTSQCU.js">
+    <link rel="modulepreload" crossorigin href="/assets/createLucideIcon-KFSAavYI.js">
+    <link rel="modulepreload" crossorigin href="/assets/calendar-CjPcbtaA.js">
+    <link rel="modulepreload" crossorigin href="/assets/mail-CbNC2a0J.js">
+    <link rel="modulepreload" crossorigin href="/assets/menu-B9lvogoj.js">
+    <link rel="modulepreload" crossorigin href="/assets/x-BqVypbkp.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-nKJ6TyCl.js">
+    <link rel="modulepreload" crossorigin href="/assets/prop-types-BfbQO3ce.js">
+    <link rel="modulepreload" crossorigin href="/assets/PhotoBackdrop-DrnFaO7u.js">
+    <link rel="modulepreload" crossorigin href="/assets/links-CROqbqB9.js">
+    <link rel="modulepreload" crossorigin href="/assets/api-Dcy5ffXv.js">
+    <link rel="modulepreload" crossorigin href="/assets/AuthContext-Bsknhelc.js">
+    <link rel="modulepreload" crossorigin href="/assets/GeoContext-_MVfVxnr.js">
+    <link rel="modulepreload" crossorigin href="/assets/useApi-B6mUbazI.js">
+    <link rel="modulepreload" crossorigin href="/assets/i18n--QlP1_rd.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-BQjfMaWE.css">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVMRKK4B"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div id="root"></div>
+  </body>
+</html>
