@@ -153,25 +153,4 @@ router.post('/change-credentials', requireAuth, changeCredsLimiter, async (req, 
   }
 });
 
-// TEMP — diagnose env-var mangling on Hostinger. Returns ONLY safe metadata about
-// what the server loaded (no plaintext secrets). DELETE this route once login works.
-router.get('/_debug', (_req, res) => {
-  const u = process.env.ADMIN_USERNAME || '';
-  const plain = process.env.ADMIN_PASSWORD_HASH || '';
-  const b64 = process.env.ADMIN_PASSWORD_HASH_B64 || '';
-  const resolved = loadAdminHashFromEnv();
-  const j = process.env.JWT_SECRET || '';
-  res.json({
-    adminUsername: u,
-    adminPlainHashLength: plain.length,
-    adminB64HashLength: b64.length,
-    resolvedHashLength: resolved.length,                 // expect 60
-    resolvedHashPrefix: resolved.slice(0, 7),            // expect "$2b$12$" or "$2a$10$"
-    resolvedHashStartsWithDollar: resolved.startsWith('$'),
-    usingBase64Source: !!(b64 && b64.trim() && resolved.startsWith('$2')),
-    jwtSecretLength: j.length,                           // expect 64+
-    nodeEnv: process.env.NODE_ENV || null,
-  });
-});
-
 module.exports = router;
