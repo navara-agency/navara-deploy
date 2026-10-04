@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const { errorHandler } = require('./middleware/errorHandler');
 const logger = require('./config/logger');
@@ -18,6 +19,13 @@ const translationsRoutes = require('./routes/translations');
 const uploadRoutes = require('./routes/upload');
 const calcomRoutes = require('./routes/calcom');
 const emailTemplatesRoutes = require('./routes/emailTemplates');
+
+// Hostinger runs each deploy from a versioned folder, so an absolute STATIC_DIR can go stale.
+// Use STATIC_DIR only if it contains index.html; otherwise fall back to the bundled ./public.
+function resolveStaticDir() {
+  const candidates = [process.env.STATIC_DIR, path.join(__dirname, '..', 'public')].filter(Boolean);
+  return candidates.find((dir) => fs.existsSync(path.join(dir, 'index.html'))) || null;
+}
 
 function createApp() {
   const app = express();
@@ -57,7 +65,7 @@ function createApp() {
   // Static frontend — only active when STATIC_DIR env var points at a Vite dist/ folder.
   // On Hostinger the reverse proxy routes ALL traffic through Node.js, so this lets the
   // backend serve brand assets, favicons, and the SPA shell without a separate web server.
-  const STATIC_DIR = process.env.STATIC_DIR || null;
+  const STATIC_DIR = resolveStaticDir();
   if (STATIC_DIR) {
     app.use(express.static(STATIC_DIR, { maxAge: '7d' }));
   }
@@ -104,7 +112,6 @@ function createApp() {
     if (req.path.startsWith('/api')) {
       return res.status(404).json({ error: `Not found: ${req.method} ${req.path}` });
     }
-    const STATIC_DIR = process.env.STATIC_DIR || null;
     if (STATIC_DIR) {
       const indexPath = path.join(STATIC_DIR, 'index.html');
       return res.sendFile(indexPath, (err) => {
