@@ -41,7 +41,8 @@ async function start() {
       reminderQueue.start();
     }
   } catch (err) {
-    logger.error({ err }, 'Failed to start server');
+        console.error('START ERROR:', err && (err.stack || err.message));
+    logger.error({ err }, 'Failed to start server: ' + (err && err.message));
     process.exit(1);
   }
 }
