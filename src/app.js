@@ -50,7 +50,9 @@ function createApp() {
         // Allow same-origin / curl / server-to-server (no Origin header)
         if (!origin) return cb(null, true);
         if (allowedOrigins.includes(origin)) return cb(null, true);
-        return cb(new Error(`CORS: origin ${origin} not allowed`));
+        // Unknown origin: answer without CORS headers (the browser blocks it) instead of
+        // throwing — an Error here reached errorHandler and returned a 500 to scanners.
+        return cb(null, false);
       },
       credentials: false,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
