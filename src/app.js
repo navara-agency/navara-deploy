@@ -69,7 +69,14 @@ function createApp() {
   // backend serve brand assets, favicons, and the SPA shell without a separate web server.
   const STATIC_DIR = resolveStaticDir();
   if (STATIC_DIR) {
-    app.use(express.static(STATIC_DIR, { maxAge: '7d' }));
+    // index.html must be revalidated on every visit so a deploy reaches returning
+    // visitors at once; the hashed files under /assets can be cached for a week.
+    app.use(express.static(STATIC_DIR, {
+      maxAge: '7d',
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
+      },
+    }));
   }
 
   // Health check — pings DB and reports which integrations have credentials configured.
@@ -116,6 +123,7 @@ function createApp() {
     }
     if (STATIC_DIR) {
       const indexPath = path.join(STATIC_DIR, 'index.html');
+      res.setHeader('Cache-Control', 'no-cache');
       return res.sendFile(indexPath, (err) => {
         if (err) res.status(404).json({ error: 'Frontend index.html not found' });
       });
