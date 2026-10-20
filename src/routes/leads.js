@@ -6,6 +6,7 @@ const { requireAuth } = require('../middleware/auth');
 const { sendLeadNotification, sendBookingConfirmation } = require('../services/email');
 const { createBooking } = require('../services/calcom');
 const { scheduleReminder } = require('../services/reminderQueue');
+const { sendLeadEvent } = require('../services/metaCapi');
 const logger = require('../config/logger');
 
 const router = express.Router();
@@ -162,6 +163,56 @@ router.post('/', submitLimiter, async (req, res, next) => {
     }
 
     return res.status(201).json({ success: true, id: lead.id, booking });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// The page sends this right after the lead is saved (or on the Cal.com booking right after).
+// Anything older is a replay, not a real conversion.
+const META_LEAD_WINDOW_MS = 6 * 60 * 60 * 1000;
+
+const metaLeadLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' },
+});
+
+function cookieValue(value) {
+  return typeof value === 'string' && value.length <= 255 ? value.trim() : undefined;
+}
+
+// POST /api/leads/:id/meta-lead — public. Called by the contact page when the success panel
+// or a Cal.com booking shows (first one only); sends the Meta CAPI "Lead" with the same event_id as the browser Pixel.
+// User data (email/phone/name) comes from the saved lead, never from this request body.
+router.post('/:id/meta-lead', metaLeadLimiter, async (req, res, next) => {
+  try {
+    const { Lead } = require('../models');
+    const id = Number(req.params.id);
+    const lead = Number.isInteger(id) && id > 0 ? await Lead.findByPk(id) : null;
+    if (!lead) return res.status(404).json({ error: 'Lead not found' });
+    if (Date.now() - new Date(lead.submittedAt).getTime() > META_LEAD_WINDOW_MS) {
+      return res.status(410).json({ error: 'Lead too old' });
+    }
+
+    const sourceUrl = typeof req.body?.sourceUrl === 'string' && /^https?:\/\//i.test(req.body.sourceUrl)
+      ? req.body.sourceUrl.slice(0, 500) : undefined;
+    try {
+      const result = await sendLeadEvent(lead, {
+        ip: req.ip,
+        userAgent: req.get('user-agent'),
+        fbp: cookieValue(req.body?.fbp),
+        fbc: cookieValue(req.body?.fbc),
+        sourceUrl,
+      });
+      if (result.ok === false) logger.warn({ lead: { id: lead.id }, error: result.error }, 'meta lead event not accepted');
+    } catch (err) {
+      // Tracking must never surface as an error to the visitor.
+      logger.warn({ err: err.message, lead: { id: lead.id } }, 'meta lead event failed');
+    }
+    return res.status(202).json({ success: true, eventId: `lead-${lead.id}` });
   } catch (err) {
     return next(err);
   }
